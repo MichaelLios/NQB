@@ -1,0 +1,398 @@
+/* NQB Dashboard — design system (matches standalone HTML spec) */
+:root {
+  --bg-body:  #0d1714;
+  --bg-0:     oklch(0.16 0.005 250);
+  --bg-1:     oklch(0.20 0.006 250);
+  --bg-2:     oklch(0.235 0.007 250);
+  --bg-3:     oklch(0.275 0.008 250);
+  --bull:     oklch(0.78 0.16 152);
+  --bull-s:   oklch(0.78 0.16 152 / 0.14);
+  --bear:     oklch(0.68 0.20 25);
+  --bear-s:   oklch(0.68 0.20 25 / 0.14);
+  --info:     oklch(0.74 0.13 235);
+  --info-s:   oklch(0.74 0.13 235 / 0.14);
+  --warn:     oklch(0.82 0.14 85);
+  --warn-s:   oklch(0.82 0.14 85 / 0.14);
+  --text:     oklch(0.94 0.005 250);
+  --text-2:   oklch(0.78 0.005 250);
+  --dim:      oklch(0.60 0.005 250);
+  --muted:    oklch(0.48 0.005 250);
+  --line:     oklch(0.31 0.01 250);
+  --line-s:   oklch(0.40 0.012 250);
+  --grade-ap: oklch(0.78 0.16 152);
+  --grade-a:  oklch(0.74 0.12 165);
+  --grade-b:  oklch(0.78 0.13 85);
+  --grade-c:  oklch(0.65 0.05 25);
+  --r:   4px;
+  --r-lg: 6px;
+  --shadow: 0 1px 0 rgba(255,255,255,.03), 0 8px 24px rgba(0,0,0,.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body, #react-entry-point, ._dash-loading, #_dash-app-content {
+  background: var(--bg-body) !important;
+  color: var(--text) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── Topbar ───────────────────────────────────────────────────────────── */
+.nqb-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-0);
+  border-bottom: 1px solid var(--line);
+  padding: 0 20px;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nqb-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 24px;
+}
+.nqb-brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--text);
+}
+.nqb-pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--bull);
+  box-shadow: 0 0 0 0 var(--bull);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 oklch(0.78 0.16 152 / .5); }
+  70%  { box-shadow: 0 0 0 6px oklch(0.78 0.16 152 / 0); }
+  100% { box-shadow: 0 0 0 0 oklch(0.78 0.16 152 / 0); }
+}
+.nqb-brand-sub { font-size: 11px; color: var(--muted); line-height: 1.2; }
+
+.nqb-sep { width: 1px; height: 28px; background: var(--line); margin: 0 16px; flex-shrink: 0; }
+
+.nqb-ticker { display: flex; flex-direction: column; }
+.nqb-ticker-sym { font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.nqb-ticker-row { display: flex; align-items: baseline; gap: 8px; }
+.nqb-ticker-price { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; font-family: ui-monospace, monospace; }
+.nqb-ticker-delta { font-size: 12px; font-family: ui-monospace, monospace; }
+.nqb-ticker-delta.up  { color: var(--bull); }
+.nqb-ticker-delta.down{ color: var(--bear); }
+
+.nqb-topbar-cell { display: flex; flex-direction: column; gap: 2px; }
+.nqb-cell-label { font-size: 10px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+
+/* Session pill */
+.nqb-session-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 500;
+  border: 1px solid currentColor;
+}
+.nqb-session-pill.bull  { color: var(--bull); background: var(--bull-s); }
+.nqb-session-pill.warn  { color: var(--warn); background: var(--warn-s); }
+.nqb-session-pill.info  { color: var(--info); background: var(--info-s); }
+.nqb-session-pill.neutral{ color: var(--dim);  background: var(--bg-2); border-color: var(--line-s); }
+.nqb-session-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* Bot state */
+.nqb-state { display: flex; align-items: center; gap: 6px; }
+.nqb-state-led { width: 7px; height: 7px; border-radius: 50%; }
+.nqb-state-led.ok     { background: var(--bull); }
+.nqb-state-led.paused { background: var(--warn); }
+
+/* Clock */
+.nqb-clock { font-family: ui-monospace, monospace; font-size: 14px; letter-spacing: .04em; }
+
+/* Scan counter */
+.nqb-scan { font-family: ui-monospace, monospace; font-size: 14px; }
+.nqb-scan-bar { height: 2px; background: var(--line); border-radius: 1px; margin-top: 3px; overflow: hidden; }
+.nqb-scan-bar-fill { height: 100%; background: var(--info); border-radius: 1px; transition: width .5s linear; }
+
+/* Paper toggle */
+.nqb-paper-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border: 1px solid;
+}
+.nqb-paper-badge.on  { color: var(--bull); background: var(--bull-s); border-color: var(--bull); }
+.nqb-paper-badge.off { color: var(--muted); background: var(--bg-2); border-color: var(--line-s); }
+
+/* ── Session strip ───────────────────────────────────────────────────── */
+.nqb-session-strip {
+  background: var(--bg-0);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 20px 4px;
+}
+.nqb-ss-track {
+  position: relative;
+  height: 20px;
+  background: var(--bg-2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.nqb-ss-block {
+  position: absolute; top: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 500; letter-spacing: .04em;
+  overflow: hidden; white-space: nowrap;
+}
+.nqb-ss-block.bull  { background: oklch(0.78 0.16 152 / .18); color: var(--bull); }
+.nqb-ss-block.warn  { background: oklch(0.82 0.14 85  / .18); color: var(--warn); }
+.nqb-ss-block.info  { background: oklch(0.74 0.13 235 / .18); color: var(--info); }
+.nqb-ss-block.neutral{ background: var(--bg-2); color: var(--muted); }
+.nqb-ss-now {
+  position: absolute; top: 0; bottom: 0; width: 2px;
+  background: white; opacity: .6; transform: translateX(-50%);
+}
+.nqb-ss-axis {
+  display: flex; justify-content: space-between;
+  padding-top: 2px;
+  font-size: 10px; color: var(--muted); font-family: ui-monospace, monospace;
+}
+
+/* ── KPI cards ──────────────────────────────────────────────────────── */
+.nqb-kpi-row {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 12px 20px;
+  background: var(--bg-0);
+  border-bottom: 1px solid var(--line);
+}
+.nqb-kpi {
+  flex: 1; min-width: 110px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+}
+.nqb-kpi.big { min-width: 160px; }
+.nqb-kpi-label { font-size: 10px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 3px; }
+.nqb-kpi-value { font-size: 20px; font-weight: 600; font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.nqb-kpi-value.big { font-size: 24px; }
+.nqb-kpi-sub { font-size: 10px; color: var(--dim); margin-top: 2px; font-family: ui-monospace, monospace; }
+.nqb-kpi.bull .nqb-kpi-value { color: var(--bull); }
+.nqb-kpi.bear .nqb-kpi-value { color: var(--bear); }
+.nqb-kpi.warn .nqb-kpi-value { color: var(--warn); }
+.nqb-kpi.info .nqb-kpi-value { color: var(--info); }
+
+/* ── Panels ──────────────────────────────────────────────────────────── */
+.nqb-panel {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.nqb-panel-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-0);
+}
+.nqb-panel-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.nqb-panel-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.nqb-panel-body  { padding: 14px 16px; }
+
+/* ── Grade badges ────────────────────────────────────────────────────── */
+.nqb-grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 20px; border-radius: var(--r);
+  font-size: 11px; font-weight: 700; letter-spacing: .02em;
+  border: 1px solid currentColor;
+}
+.nqb-grade-ap { color: var(--grade-ap); background: oklch(0.78 0.16 152 / .12); }
+.nqb-grade-a  { color: var(--grade-a);  background: oklch(0.74 0.12 165 / .12); }
+.nqb-grade-b  { color: var(--grade-b);  background: oklch(0.78 0.13  85 / .12); }
+.nqb-grade-c  { color: var(--grade-c);  background: oklch(0.65 0.05  25 / .12); }
+.nqb-grade-none{ color: var(--muted);   background: var(--bg-2); border-color: var(--line); }
+
+/* ── Signal pills ────────────────────────────────────────────────────── */
+.nqb-sig {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .05em;
+  border: 1px solid currentColor;
+}
+.nqb-sig-strong-buy  { color: var(--bull); background: var(--bull-s); }
+.nqb-sig-buy         { color: oklch(0.74 0.12 152); background: oklch(0.74 0.12 152 / .1); }
+.nqb-sig-neutral     { color: var(--warn); background: var(--warn-s); }
+.nqb-sig-sell        { color: oklch(0.74 0.12 25); background: oklch(0.74 0.12 25 / .1); }
+.nqb-sig-strong-sell { color: var(--bear); background: var(--bear-s); }
+
+/* ── MTF tabs ────────────────────────────────────────────────────────── */
+.nqb-mtf-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.nqb-mtf-tab {
+  flex: 1; padding: 10px 12px; border-radius: var(--r-lg);
+  border: 1px solid var(--line); background: var(--bg-2);
+  cursor: pointer; text-align: left; transition: border-color .15s, background .15s;
+}
+.nqb-mtf-tab:hover { border-color: var(--line-s); }
+.nqb-mtf-tab.active { border-color: var(--info); background: var(--info-s); }
+.nqb-mtf-tab-tf   { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.nqb-mtf-tab-sig  { margin: 3px 0; }
+.nqb-mtf-tab-score{ font-size: 11px; font-family: ui-monospace, monospace; color: var(--dim); }
+
+/* ── Bull/bear bar ───────────────────────────────────────────────────── */
+.nqb-bb-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--bg-3); margin: 4px 0; }
+.nqb-bb-bull { background: var(--bull); }
+.nqb-bb-bear { background: var(--bear); }
+.nqb-bb-nums { display: flex; justify-content: space-between; font-size: 11px; font-family: ui-monospace, monospace; }
+
+/* ── Trade idea strip ────────────────────────────────────────────────── */
+.nqb-trade-idea {
+  background: var(--bg-2);
+  border: 1px solid var(--line-s);
+  border-radius: var(--r-lg);
+  padding: 10px 14px;
+  margin: 10px 0;
+}
+.nqb-ti-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.nqb-ti-row { display: flex; gap: 0; flex-wrap: wrap; }
+.nqb-ti-cell {
+  flex: 1; min-width: 90px;
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 6px 10px;
+  border-right: 1px solid var(--line);
+}
+.nqb-ti-cell:last-child { border-right: none; }
+.nqb-ti-cell-label { font-size: 10px; color: var(--muted); }
+.nqb-ti-cell-val   { font-size: 14px; font-weight: 600; font-family: ui-monospace, monospace; }
+.nqb-ti-cell-sub   { font-size: 10px; color: var(--dim); font-family: ui-monospace, monospace; }
+
+/* Trade direction tag */
+.nqb-dir { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; }
+.nqb-dir.long  { color: var(--bull); background: var(--bull-s); }
+.nqb-dir.short { color: var(--bear); background: var(--bear-s); }
+
+/* ── No Trade banner ────────────────────────────────────────────────── */
+.nqb-no-trade {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bear-s); border: 1px solid var(--bear);
+  border-radius: var(--r-lg); padding: 10px 16px;
+  color: var(--bear); font-weight: 600; font-size: 13px;
+}
+
+/* ── Regime badge ────────────────────────────────────────────────────── */
+.nqb-regime {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; border: 1px solid currentColor;
+}
+
+/* ── Vote table ──────────────────────────────────────────────────────── */
+.nqb-vote-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.nqb-vote-table th {
+  text-align: left; padding: 5px 8px;
+  font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px solid var(--line);
+}
+.nqb-vote-table td { padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.nqb-vote-table tr:last-child td { border-bottom: none; }
+.nqb-strength-bar { width: 60px; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden; display: inline-block; margin-right: 6px; vertical-align: middle; }
+.nqb-strength-fill.bull { background: var(--bull); height: 100%; }
+.nqb-strength-fill.bear { background: var(--bear); height: 100%; }
+.nqb-strength-fill.neutral { background: var(--dim); height: 100%; }
+
+/* ── Data tables ─────────────────────────────────────────────────────── */
+.nqb-data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.nqb-data-table th {
+  text-align: left; padding: 6px 10px;
+  font-size: 10px; font-weight: 600; color: var(--muted);
+  letter-spacing: .05em; text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-0);
+}
+.nqb-data-table td { padding: 6px 10px; border-bottom: 1px solid var(--line); }
+.nqb-data-table tr:last-child td { border-bottom: none; }
+.nqb-data-table tr:hover td { background: var(--bg-2); }
+.nqb-data-table .num { text-align: right; font-family: ui-monospace, monospace; }
+
+/* ── Segmented control ───────────────────────────────────────────────── */
+.nqb-seg { display: flex; gap: 0; background: var(--bg-2); border-radius: var(--r); padding: 2px; border: 1px solid var(--line); }
+.nqb-seg-btn {
+  flex: 1; padding: 4px 10px; border-radius: 3px; border: none;
+  background: transparent; color: var(--dim); font: inherit; font-size: 12px;
+  cursor: pointer; transition: background .12s, color .12s; white-space: nowrap;
+}
+.nqb-seg-btn:hover { color: var(--text); }
+.nqb-seg-btn.active { background: var(--bg-3); color: var(--text); }
+
+/* ── Ghost button ────────────────────────────────────────────────────── */
+.nqb-btn {
+  appearance: none; padding: 6px 16px; border-radius: var(--r-lg);
+  font: inherit; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid;
+}
+.nqb-btn-primary { background: var(--info); color: #000; border-color: var(--info); }
+.nqb-btn-ghost   { background: transparent; color: var(--dim); border-color: var(--line-s); }
+.nqb-btn-ghost:hover { color: var(--text); border-color: var(--line-s); }
+.nqb-btn-warn    { background: oklch(0.78 0.13 85 / .15); color: var(--warn); border-color: var(--warn); }
+
+/* ── Misc helpers ────────────────────────────────────────────────────── */
+.mono   { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.muted  { color: var(--muted); }
+.dim    { color: var(--dim); }
+.bull   { color: var(--bull); }
+.bear   { color: var(--bear); }
+.info   { color: var(--info); }
+.warn   { color: var(--warn); }
+.sep    { width: 1px; background: var(--line); align-self: stretch; }
+
+/* override Dash default styles */
+.dash-loading { display: none !important; }
+a, a:visited { color: var(--info); text-decoration: none; }
+
+/* Tab overrides */
+.tab--selected { border-bottom: 2px solid var(--info) !important; }
+.tab { color: var(--dim) !important; background: var(--bg-0) !important; border-color: var(--line) !important; }
+.tab--selected, .tab:hover { color: var(--text) !important; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line-s); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Footer */
+.nqb-footer {
+  padding: 12px 20px; text-align: center;
+  font-size: 11px; color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: var(--bg-0);
+  margin-top: 20px;
+}
+.nqb-footer a { color: var(--muted); }
+
+/* Outcome chips */
+.nqb-outcome { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 600; }
+.nqb-outcome.win  { color: var(--bull); background: var(--bull-s); }
+.nqb-outcome.loss { color: var(--bear); background: var(--bear-s); }
+.nqb-outcome.open { color: var(--info); background: var(--info-s); }
+
+/* Summary stat block used in signal detail */
+.nqb-ss-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px; margin-bottom: 10px;
+}
+.nqb-ss-block {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 8px 10px;
+}
+.nqb-ss-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.nqb-ss-val   { font-size: 14px; font-weight: 600; font-family: ui-monospace, monospace; margin-top: 2px; }
